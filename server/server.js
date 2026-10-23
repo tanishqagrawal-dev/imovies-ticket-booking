@@ -9,7 +9,8 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 
-require("dotenv").config({ path: "./.env" });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 // Prefer IPv4 results to avoid ::1 (IPv6) connections when providers expect IPv4
 const dns = require("dns");
@@ -28,7 +29,6 @@ const app = express();
 const cors = require("cors");
 app.use(cors());
 
-const path = require("path");
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 

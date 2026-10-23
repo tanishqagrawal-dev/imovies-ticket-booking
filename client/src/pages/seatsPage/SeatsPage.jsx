@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Loader from "../../components/loader/Loader";
-import { BiArrowBack, BiCheckShield, BiCreditCard, BiQrScan } from "react-icons/bi";
+import { BiArrowBack, BiCreditCard, BiQrScan } from "react-icons/bi";
 import "./style.scss";
 
 const SeatsPage = () => {
@@ -16,7 +16,6 @@ const SeatsPage = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedTier, setSelectedTier] = useState("middle");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("Card");
   const [processingPayment, setProcessingPayment] = useState(false);

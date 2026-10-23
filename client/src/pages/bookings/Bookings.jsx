@@ -9,11 +9,8 @@ import { IoTicketOutline, IoCheckmarkCircle } from "react-icons/io5";
 import {
   BiTrash,
   BiQr,
-  BiCalendar,
-  BiTime,
   BiBuilding,
   BiPrinter,
-  BiDownload,
   BiX,
   BiCheckCircle,
   BiXCircle,
