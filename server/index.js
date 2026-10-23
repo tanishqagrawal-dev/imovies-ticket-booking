@@ -1,4 +1,2 @@
-// Entrypoint exporting the Express application
-const app = require("./server");
-
-module.exports = app;
+// Entrypoint redirecting to server.js
+require("./server");
