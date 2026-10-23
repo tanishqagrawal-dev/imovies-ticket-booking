@@ -636,6 +636,42 @@
   ],
   "bookings": [
     {
+      "_id": "bk-1792766883375",
+      "bookingId": "BK-603876",
+      "userEmail": "tanishqagrawal1103@gmail.com",
+      "showId": "SH-106",
+      "ticketsData": {
+        "seats": [
+          "B7",
+          "B8",
+          "B9"
+        ],
+        "tier": "Balcony",
+        "seatsByTier": {
+          "balcony": [
+            "B7",
+            "B8",
+            "B9"
+          ],
+          "middle": [],
+          "lower": []
+        },
+        "theatreName": "Srinivasa",
+        "movieName": "Ramayana",
+        "showDate": "Nov 5, 2026",
+        "showtime": "6:00 PM",
+        "seatCount": 3,
+        "totalPrice": 882,
+        "poster": "/posters/ramayana.jpg",
+        "paymentMethod": "Card"
+      },
+      "totalAmount": 882,
+      "paymentStatus": "Cancelled",
+      "status": "Cancelled",
+      "createdAt": "2026-10-23T14:48:03.375Z",
+      "cancelledAt": "2026-10-23T14:48:31.313Z"
+    },
+    {
       "_id": "bk-1792699410590",
       "bookingId": "BK-681283",
       "userEmail": "tanishqagrawal68@gmail.com",
@@ -746,6 +782,12 @@
       "username": "tanishqagrawal68",
       "email": "tanishqagrawal68@gmail.com",
       "role": "user"
+    },
+    {
+      "_id": "usr-1792766538213",
+      "username": "tanishqagrawal1103",
+      "email": "tanishqagrawal1103@gmail.com",
+      "role": "user"
     }
   ],
   "admins": [
@@ -753,6 +795,12 @@
       "_id": "67b07001a1b2c3d4e5f60001",
       "username": "admin",
       "email": "admin@imovies.com",
+      "role": "admin"
+    },
+    {
+      "_id": "adm-1792766708386",
+      "username": "admin",
+      "email": "tanishqagrawal68@gmail.com",
       "role": "admin"
     }
   ]

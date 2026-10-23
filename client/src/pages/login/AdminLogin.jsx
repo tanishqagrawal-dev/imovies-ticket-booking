@@ -33,7 +33,11 @@ const AdminLogin = () => {
         toast.error(response.data.error || "Admin login failed");
       }
     } catch (error) {
-      toast.error(error.response?.data?.error || "Invalid admin credentials");
+      if (!error.response) {
+        toast.error("Cannot connect to server. Please check that the backend is running on port 3000.");
+      } else {
+        toast.error(error.response.data?.error || "Invalid admin credentials");
+      }
     } finally {
       setLoading(false);
     }

@@ -33,7 +33,11 @@ const Login = () => {
         toast.error(response.data.error || "Login failed");
       }
     } catch (error) {
-      toast.error(error.response?.data?.error || "Invalid email or password");
+      if (!error.response) {
+        toast.error("Cannot connect to server. Please check that the backend is running on port 3000.");
+      } else {
+        toast.error(error.response.data?.error || "Invalid email or password");
+      }
     } finally {
       setLoading(false);
     }
