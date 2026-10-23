@@ -211,3 +211,4 @@ For quick testing and feature walkthroughs:
 
 * **Developer**: Tanishq Agrawal
 * **Project**: iMovies - Full Stack Movie Ticket Booking Platform
+

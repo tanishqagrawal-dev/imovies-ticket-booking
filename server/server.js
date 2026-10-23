@@ -1,3 +1,4 @@
+// iMovies - Express API Server Entry Point
 const express = require("express");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authRoutes");
