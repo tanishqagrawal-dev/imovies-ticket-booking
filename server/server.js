@@ -9,7 +9,8 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 
-require("dotenv").config({ path: "./.env" });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 // Prefer IPv4 results to avoid ::1 (IPv6) connections when providers expect IPv4
 const dns = require("dns");
@@ -24,13 +25,37 @@ const { cleanupOldBookings } = require("./utils/cleanupService");
 const connectToMongo = require("./utils/db");
 const seedDatabase = require("./utils/seeder");
 
+let dbPromise = null;
+const ensureDbConnected = async () => {
+  if (mongoose.connection.readyState === 1) return;
+  if (!dbPromise) {
+    dbPromise = connectToMongo()
+      .then(async () => {
+        try {
+          await seedDatabase();
+        } catch (_) {}
+      })
+      .catch(() => {
+        dbPromise = null;
+      });
+  }
+  return dbPromise;
+};
+
 const app = express();
 const cors = require("cors");
 app.use(cors());
 
-const path = require("path");
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Ensure database connection is ready for incoming requests (critical for serverless cold starts)
+app.use(async (req, res, next) => {
+  try {
+    await ensureDbConnected();
+  } catch (_) {}
+  next();
+});
 
 // Mount API routes exactly matching curriculum specification
 app.use("/api/auth", authRoutes);
@@ -56,34 +81,31 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
-  // Connect to Database
-  await connectToMongo();
-
-  // Seed default data if database is connected
-  try {
-    await seedDatabase();
-  } catch (err) {
-    console.log("Seeding notice:", err.message);
-  }
+  await ensureDbConnected();
 
   // Verify mailer configuration
   verifyTransport();
 
-  // Schedule background jobs
-  try {
-    cron.schedule("0 * * * *", () => {
-      sendReminderEmails();
-    });
-    cron.schedule("0 0 * * *", () => {
-      cleanupOldBookings();
-    });
-  } catch (err) {
-    console.log("Cron notice:", err.message);
+  // Schedule background jobs only in persistent environments (not serverless)
+  if (!process.env.VERCEL) {
+    try {
+      cron.schedule("0 * * * *", () => {
+        sendReminderEmails();
+      });
+      cron.schedule("0 0 * * *", () => {
+        cleanupOldBookings();
+      });
+    } catch (err) {
+      console.log("Cron notice:", err.message);
+    }
   }
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT} port`);
-  });
+  // Only start listening when not running on Vercel Serverless
+  if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+      console.log(`Server is running on ${PORT} port`);
+    });
+  }
 };
 
 startServer();
